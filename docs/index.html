@@ -20,25 +20,20 @@
         <span class="brand-icon" aria-hidden="true">Rp</span>
         <span>Catatan<span class="brand-light">Keuangan</span></span>
       </a>
-      <span class="privacy-note">Data tersimpan di HP ini</span>
     </header>
 
     <section class="intro">
-      <p class="eyebrow">KEUANGAN PRIBADI</p>
-      <h1>Uangmu, tercatat rapi.</h1>
-      <p>Catat uang masuk dan keluar, lalu pantau ringkasannya setiap bulan.</p>
+      <h1>Catatan keuangan</h1>
     </section>
 
     <p id="message" class="message" role="status" aria-live="polite" hidden></p>
 
     <section class="report-toolbar" aria-labelledby="monthly-report-heading">
       <div>
-        <p class="eyebrow">LAPORAN BULANAN</p>
-        <h2 id="monthly-report-heading">Ringkasan per bulan</h2>
-        <p id="selected-month-label" class="selected-month-label"></p>
+        <h2 id="monthly-report-heading">Ringkasan bulanan</h2>
       </div>
       <div class="month-picker">
-        <label for="month">Pilih bulan laporan</label>
+        <label for="month">Bulan</label>
         <input id="month" name="month" type="month">
       </div>
     </section>
@@ -47,17 +42,14 @@
       <article class="summary-card balance-card">
         <span class="summary-label">Sisa bersih</span>
         <strong id="balance">Rp 0</strong>
-        <span class="summary-caption">Pemasukan dikurangi pengeluaran</span>
       </article>
       <article class="summary-card">
         <span class="summary-label">Pemasukan</span>
         <strong id="income" class="income-text">Rp 0</strong>
-        <span class="summary-caption">Total pemasukan bulan terpilih</span>
       </article>
       <article class="summary-card">
         <span class="summary-label">Pengeluaran</span>
         <strong id="expense" class="expense-text">Rp 0</strong>
-        <span class="summary-caption">Total pengeluaran bulan terpilih</span>
       </article>
     </section>
 
@@ -65,8 +57,7 @@
       <section class="panel form-panel">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">CATAT TRANSAKSI</p>
-            <h2 id="form-heading">Tambah catatan</h2>
+            <h2 id="form-heading">Tambah transaksi</h2>
           </div>
           <span class="heading-mark" aria-hidden="true">+</span>
         </div>
@@ -86,8 +77,6 @@
             <input id="amount" name="amount" type="number" min="1" step="1"
                    inputmode="numeric" placeholder="Contoh: 50000" required>
           </div>
-          <p class="field-hint">Masukkan angka tanpa titik atau koma.</p>
-
           <label for="description">Keterangan</label>
           <input id="description" name="description" type="text" maxlength="120"
                  placeholder="Contoh: Gaji, beli beras, rokok" required>
@@ -102,7 +91,6 @@
       <section class="panel report-panel">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">RIWAYAT BULAN TERPILIH</p>
             <h2>Riwayat transaksi</h2>
           </div>
         </div>
@@ -111,16 +99,13 @@
         <div id="empty-state" class="empty-state" hidden>
           <span aria-hidden="true">◷</span>
           <strong>Belum ada transaksi</strong>
-          <p>Catatan untuk bulan ini akan muncul di sini.</p>
         </div>
-        <p id="report-footnote" class="report-footnote"></p>
       </section>
     </div>
     <section class="panel backup-panel" aria-labelledby="backup-heading">
       <div>
-        <p class="eyebrow">PINDAH HP / CADANGAN</p>
-        <h2 id="backup-heading">Cadangkan catatanmu</h2>
-        <p class="backup-copy">Unduh file cadangan untuk dipindahkan ke HP lain. Impor menggabungkan catatan tanpa menghapus yang sudah ada.</p>
+        <h2 id="backup-heading">Cadangan data</h2>
+        <p class="backup-copy">Unduh file untuk pindah HP.</p>
       </div>
       <div class="backup-actions">
         <button id="export-backup" class="secondary-button" type="button">Unduh cadangan</button>
@@ -128,7 +113,6 @@
         <input id="backup-file" type="file" accept=".json,application/json" hidden>
       </div>
     </section>
-    <footer>Catatan tersimpan di browser HP ini <span>·</span> Tidak disinkronkan ke server.</footer>
   </main>
 </body>
 </html>

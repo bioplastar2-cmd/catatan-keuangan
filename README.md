@@ -77,6 +77,8 @@ menambahkan transaksi baru. Tekan **Batal edit** untuk membatalkan.
 Setelah menyimpan, tombol menampilkan proses singkat lalu notifikasi sukses
 dengan nama dan nominal transaksi. Notifikasi muncul di bagian bawah layar
 selama beberapa detik; jika penyimpanan gagal, pesan kesalahan juga ditampilkan.
+Untuk menjaga tampilan tetap ringkas, ringkasan hanya menampilkan judul dan
+nominal; pilih bulan pada bagian **Ringkasan bulanan**.
 
 ## Melihat laporan per bulan
 
