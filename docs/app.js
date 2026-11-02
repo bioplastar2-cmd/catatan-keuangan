@@ -12,6 +12,7 @@ const backupFileInput = document.querySelector("#backup-file");
 const editingTransaction = { id: null };
 const MAX_BACKUP_SIZE = 10 * 1024 * 1024;
 const MAX_BACKUP_TRANSACTIONS = 50000;
+let messageTimeout = null;
 const currency = new Intl.NumberFormat("id-ID", {
   style: "currency",
   currency: "IDR",
@@ -198,9 +199,33 @@ function importTransactions(database, importedTransactions) {
 }
 
 function showMessage(text, kind) {
+  if (messageTimeout !== null) {
+    window.clearTimeout(messageTimeout);
+  }
   message.textContent = text;
-  message.className = `message ${kind}`;
+  message.className = `message ${kind} is-visible`;
   message.hidden = false;
+  messageTimeout = window.setTimeout(() => {
+    message.classList.remove("is-visible");
+    messageTimeout = window.setTimeout(() => {
+      message.hidden = true;
+      messageTimeout = null;
+    }, 220);
+  }, 4500);
+}
+
+function setSubmitBusy(isBusy) {
+  const submitButton = document.querySelector("#submit-transaction");
+  submitButton.disabled = isBusy;
+  submitButton.classList.toggle("is-saving", isBusy);
+  if (isBusy) {
+    submitButton.innerHTML = '<span class="button-spinner" aria-hidden="true"></span>Menyimpan...';
+    return;
+  }
+
+  submitButton.innerHTML = editingTransaction.id === null
+    ? 'Simpan transaksi <span aria-hidden="true">→</span>'
+    : 'Simpan perubahan <span aria-hidden="true">→</span>';
 }
 
 function formatDate(value) {
@@ -422,10 +447,12 @@ async function startApp() {
       return;
     }
 
+    const wasEditing = editingTransaction.id !== null;
+    setSubmitBusy(true);
+    let didPersist = false;
     try {
       if (editingTransaction.id === null) {
         await saveTransaction(database, { date, type, amount, description });
-        showMessage("Transaksi tersimpan di HP ini.", "success");
       } else {
         await updateTransaction(database, {
           id: editingTransaction.id,
@@ -434,13 +461,23 @@ async function startApp() {
           amount,
           description,
         });
-        showMessage("Perubahan transaksi berhasil disimpan.", "success");
       }
+      didPersist = true;
+      await new Promise((resolve) => window.setTimeout(resolve, 350));
       resetTransactionForm(today);
       monthInput.value = date.slice(0, 7);
       await refreshReport(database);
+      const action = wasEditing
+        ? "Perubahan berhasil disimpan"
+        : "Transaksi berhasil disimpan";
+      showMessage(`${action}: ${description} · ${currency.format(amount)}`, "success");
     } catch (error) {
-      showMessage(`Transaksi gagal disimpan: ${error.message}`, "error");
+      const prefix = didPersist
+        ? "Transaksi tersimpan, tetapi laporan gagal diperbarui"
+        : "Transaksi gagal disimpan";
+      showMessage(`${prefix}: ${error.message}`, "error");
+    } finally {
+      setSubmitBusy(false);
     }
   });
 }

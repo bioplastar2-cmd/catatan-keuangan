@@ -74,6 +74,10 @@ dengan data transaksi tersebut; ubah kolom yang diperlukan, lalu tekan
 **Simpan perubahan**. Perubahan memperbarui transaksi yang sama, bukan
 menambahkan transaksi baru. Tekan **Batal edit** untuk membatalkan.
 
+Setelah menyimpan, tombol menampilkan proses singkat lalu notifikasi sukses
+dengan nama dan nominal transaksi. Notifikasi muncul di bagian bawah layar
+selama beberapa detik; jika penyimpanan gagal, pesan kesalahan juga ditampilkan.
+
 ## Melihat laporan per bulan
 
 Di bagian **Laporan Bulanan**, pilih bulan dan tahun pada **Pilih bulan laporan**.
