@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Catatan Keuangan</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Catatan Keuangan, beranda">
+        <span class="brand-icon" aria-hidden="true">Rp</span>
+        <span>Catatan<span class="brand-light">Keuangan</span></span>
+      </a>
+      <span class="privacy-note">Data tersimpan di HP ini</span>
+    </header>
+
+    <section class="intro">
+      <p class="eyebrow">KEUANGAN PRIBADI</p>
+      <h1>Uangmu, tercatat rapi.</h1>
+      <p>Catat uang masuk dan keluar, lalu pantau ringkasannya setiap bulan.</p>
+    </section>
+
+    <p id="message" class="message" role="status" aria-live="polite" hidden></p>
+
+    <section class="summary" aria-label="Ringkasan bulanan">
+      <article class="summary-card balance-card">
+        <span class="summary-label">Sisa bersih</span>
+        <strong id="balance">Rp 0</strong>
+        <span class="summary-caption">Pemasukan dikurangi pengeluaran</span>
+      </article>
+      <article class="summary-card">
+        <span class="summary-label">Pemasukan</span>
+        <strong id="income" class="income-text">Rp 0</strong>
+        <span class="summary-caption">Total uang masuk bulan ini</span>
+      </article>
+      <article class="summary-card">
+        <span class="summary-label">Pengeluaran</span>
+        <strong id="expense" class="expense-text">Rp 0</strong>
+        <span class="summary-caption">Total uang keluar bulan ini</span>
+      </article>
+    </section>
+
+    <div class="content-grid">
+      <section class="panel form-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CATAT TRANSAKSI</p>
+            <h2>Tambah catatan</h2>
+          </div>
+          <span class="heading-mark" aria-hidden="true">+</span>
+        </div>
+        <form id="transaction-form">
+          <label for="transaction_date">Tanggal</label>
+          <input id="transaction_date" name="transaction_date" type="date" required>
+
+          <label for="transaction_type">Tipe transaksi</label>
+          <select id="transaction_type" name="transaction_type" required>
+            <option value="pengeluaran">Pengeluaran</option>
+            <option value="pemasukan">Pemasukan</option>
+          </select>
+
+          <label for="amount">Nominal</label>
+          <div class="amount-input">
+            <span>Rp</span>
+            <input id="amount" name="amount" type="number" min="1" step="1"
+                   inputmode="numeric" placeholder="Contoh: 50000" required>
+          </div>
+          <p class="field-hint">Masukkan angka tanpa titik atau koma.</p>
+
+          <label for="description">Keterangan</label>
+          <input id="description" name="description" type="text" maxlength="120"
+                 placeholder="Contoh: Gaji, beli beras, rokok" required>
+
+          <button class="save-button" type="submit">Simpan transaksi <span aria-hidden="true">→</span></button>
+        </form>
+      </section>
+
+      <section class="panel report-panel">
+        <div class="section-heading report-heading">
+          <div>
+            <p class="eyebrow">LAPORAN</p>
+            <h2>Riwayat transaksi</h2>
+          </div>
+          <div class="month-picker">
+            <label for="month">Pilih bulan</label>
+            <input id="month" name="month" type="month">
+          </div>
+        </div>
+
+        <div id="transaction-list" class="transaction-list"></div>
+        <div id="empty-state" class="empty-state" hidden>
+          <span aria-hidden="true">◷</span>
+          <strong>Belum ada transaksi</strong>
+          <p>Catatan untuk bulan ini akan muncul di sini.</p>
+        </div>
+        <p id="report-footnote" class="report-footnote"></p>
+      </section>
+    </div>
+    <section class="panel backup-panel" aria-labelledby="backup-heading">
+      <div>
+        <p class="eyebrow">PINDAH HP / CADANGAN</p>
+        <h2 id="backup-heading">Cadangkan catatanmu</h2>
+        <p class="backup-copy">Unduh file cadangan untuk dipindahkan ke HP lain. Impor menggabungkan catatan tanpa menghapus yang sudah ada.</p>
+      </div>
+      <div class="backup-actions">
+        <button id="export-backup" class="secondary-button" type="button">Unduh cadangan</button>
+        <button id="choose-backup" class="save-button restore-button" type="button">Pulihkan cadangan</button>
+        <input id="backup-file" type="file" accept=".json,application/json" hidden>
+      </div>
+    </section>
+    <footer>Catatan tersimpan di browser HP ini <span>·</span> Tidak disinkronkan ke server.</footer>
+  </main>
+</body>
+</html>
