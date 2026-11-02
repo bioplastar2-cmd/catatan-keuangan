@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "catatan-keuangan-shell-v3";
+const CACHE_NAME = "catatan-keuangan-shell-v4";
 const APP_BASE = self.registration.scope;
 const APP_ROOT = new URL("./", APP_BASE).href;
 const APP_SHELL = [
@@ -36,26 +36,27 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(APP_ROOT, copy));
-          return response;
-        })
-        .catch(async () => {
-          const cachedPage = await caches.match(APP_ROOT);
-          if (cachedPage) {
-            return cachedPage;
-          }
-          throw new Error("Halaman aplikasi tidak tersedia offline.");
-        }),
-    );
-    return;
-  }
-
   event.respondWith(
-    caches.match(request).then((cachedResponse) => cachedResponse || fetch(request)),
+    (async () => {
+      try {
+        const response = await fetch(request);
+        if (response.ok) {
+          const cache = await caches.open(CACHE_NAME);
+          await cache.put(
+            request.mode === "navigate" ? APP_ROOT : request,
+            response.clone(),
+          );
+        }
+        return response;
+      } catch (error) {
+        const cachedResponse = await caches.match(
+          request.mode === "navigate" ? APP_ROOT : request,
+        );
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        throw error;
+      }
+    })(),
   );
 });

@@ -74,5 +74,15 @@ dengan data transaksi tersebut; ubah kolom yang diperlukan, lalu tekan
 **Simpan perubahan**. Perubahan memperbarui transaksi yang sama, bukan
 menambahkan transaksi baru. Tekan **Batal edit** untuk membatalkan.
 
+## Melihat laporan per bulan
+
+Di bagian **Laporan Bulanan**, pilih bulan dan tahun pada **Pilih bulan laporan**.
+Ringkasan pemasukan, pengeluaran, sisa bersih, dan riwayat transaksi akan
+menampilkan bulan yang dipilih. Pilih bulan lain untuk membandingkan laporan.
+
+Jika perubahan aplikasi belum muncul di HP, buka halaman GitHub Pages saat
+terhubung internet dan muat ulang. Jangan hapus data situs/browser untuk
+memperbarui aplikasi karena tindakan itu dapat menghapus transaksi lokal.
+
 Dokumentasi: [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)
 dan [sumber penerbitan](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).

@@ -31,7 +31,19 @@
 
     <p id="message" class="message" role="status" aria-live="polite" hidden></p>
 
-    <section class="summary" aria-label="Ringkasan bulanan">
+    <section class="report-toolbar" aria-labelledby="monthly-report-heading">
+      <div>
+        <p class="eyebrow">LAPORAN BULANAN</p>
+        <h2 id="monthly-report-heading">Ringkasan per bulan</h2>
+        <p id="selected-month-label" class="selected-month-label"></p>
+      </div>
+      <div class="month-picker">
+        <label for="month">Pilih bulan laporan</label>
+        <input id="month" name="month" type="month">
+      </div>
+    </section>
+
+    <section id="monthly-summary" class="summary" aria-label="Ringkasan bulanan">
       <article class="summary-card balance-card">
         <span class="summary-label">Sisa bersih</span>
         <strong id="balance">Rp 0</strong>
@@ -40,12 +52,12 @@
       <article class="summary-card">
         <span class="summary-label">Pemasukan</span>
         <strong id="income" class="income-text">Rp 0</strong>
-        <span class="summary-caption">Total uang masuk bulan ini</span>
+        <span class="summary-caption">Total pemasukan bulan terpilih</span>
       </article>
       <article class="summary-card">
         <span class="summary-label">Pengeluaran</span>
         <strong id="expense" class="expense-text">Rp 0</strong>
-        <span class="summary-caption">Total uang keluar bulan ini</span>
+        <span class="summary-caption">Total pengeluaran bulan terpilih</span>
       </article>
     </section>
 
@@ -88,14 +100,10 @@
       </section>
 
       <section class="panel report-panel">
-        <div class="section-heading report-heading">
+        <div class="section-heading">
           <div>
-            <p class="eyebrow">LAPORAN</p>
+            <p class="eyebrow">RIWAYAT BULAN TERPILIH</p>
             <h2>Riwayat transaksi</h2>
-          </div>
-          <div class="month-picker">
-            <label for="month">Pilih bulan</label>
-            <input id="month" name="month" type="month">
           </div>
         </div>
 

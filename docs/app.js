@@ -212,6 +212,14 @@ function formatDate(value) {
   }).format(new Date(year, month - 1, day));
 }
 
+function formatMonth(value) {
+  const [year, month] = value.split("-").map(Number);
+  return new Intl.DateTimeFormat("id-ID", {
+    month: "long",
+    year: "numeric",
+  }).format(new Date(year, month - 1, 1));
+}
+
 function makeElement(tag, className, text) {
   const element = document.createElement(tag);
   element.className = className;
@@ -276,7 +284,14 @@ async function refreshReport(database) {
   document.querySelector("#income").textContent = currency.format(income);
   document.querySelector("#expense").textContent = currency.format(expense);
   document.querySelector("#balance").textContent = currency.format(income - expense);
-  document.querySelector("#report-footnote").textContent = `Laporan untuk ${selectedMonth}`;
+  const monthLabel = formatMonth(selectedMonth);
+  document.querySelector("#selected-month-label").textContent =
+    `Pemasukan, pengeluaran, dan sisa bersih untuk ${monthLabel}`;
+  document.querySelector("#monthly-summary").setAttribute(
+    "aria-label",
+    `Ringkasan laporan bulan ${monthLabel}`,
+  );
+  document.querySelector("#report-footnote").textContent = `Laporan untuk ${monthLabel}`;
   transactionList.replaceChildren(...transactions.map(renderTransaction));
   emptyState.hidden = transactions.length > 0;
   transactionList.hidden = transactions.length === 0;
@@ -436,7 +451,9 @@ startApp().catch((error) => {
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js").catch((error) => {
+    navigator.serviceWorker.register("./service-worker.js", {
+      updateViaCache: "none",
+    }).catch((error) => {
       showMessage(`Mode offline gagal disiapkan: ${error.message}`, "error");
     });
   });
