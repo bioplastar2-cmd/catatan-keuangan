@@ -68,6 +68,9 @@ input:focus, select:focus { border-color: #6ea17d; outline: 3px solid rgba(110, 
 .save-button { display: flex; width: 100%; min-height: 46px; justify-content: space-between; align-items: center; margin-top: 20px; padding: 0 15px; border: 0; border-radius: 9px; background: var(--green); color: white; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: background .15s ease; }
 .save-button:hover { background: var(--green-dark); }
 .save-button span { font-size: 18px; }
+.form-actions { display: flex; gap: 9px; margin-top: 20px; }
+.form-actions .save-button { flex: 1; margin-top: 0; }
+.cancel-edit-button { flex: 0 0 auto; }
 
 .report-heading { gap: 15px; align-items: end; }
 .month-picker { min-width: 145px; }
@@ -84,6 +87,8 @@ input:focus, select:focus { border-color: #6ea17d; outline: 3px solid rgba(110, 
 .transaction-amount { white-space: nowrap; font-size: 12px; }
 .transaction-amount.pemasukan { color: var(--green); }
 .transaction-amount.pengeluaran { color: var(--red); }
+.edit-button { flex: 0 0 auto; min-height: 34px; padding: 0 10px; border: 1px solid #dfe6df; border-radius: 8px; background: white; color: var(--green-dark); font: inherit; font-size: 11px; font-weight: 700; cursor: pointer; }
+.edit-button:hover { background: var(--green-pale); }
 .empty-state { display: flex; min-height: 174px; flex-direction: column; justify-content: center; align-items: center; color: var(--muted); text-align: center; }
 .empty-state > span { margin-bottom: 10px; color: #a9b5aa; font-size: 28px; }
 .empty-state strong { color: #4a574e; font-size: 13px; }
@@ -107,6 +112,8 @@ footer span { padding: 0 5px; }
   .balance-card { grid-column: 1 / -1; min-height: 112px; }
   .content-grid { grid-template-columns: 1fr; gap: 13px; margin-top: 13px; }
   .panel { padding: 19px; }
+  .form-actions { flex-direction: column; }
+  .cancel-edit-button { min-height: 42px; }
   .backup-panel { align-items: stretch; flex-direction: column; gap: 15px; }
   .backup-actions { flex-direction: column; }
   .secondary-button, .restore-button { width: 100%; }

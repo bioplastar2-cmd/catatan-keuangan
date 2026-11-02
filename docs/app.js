@@ -9,6 +9,7 @@ const transactionList = document.querySelector("#transaction-list");
 const emptyState = document.querySelector("#empty-state");
 const message = document.querySelector("#message");
 const backupFileInput = document.querySelector("#backup-file");
+const editingTransaction = { id: null };
 const MAX_BACKUP_SIZE = 10 * 1024 * 1024;
 const MAX_BACKUP_TRANSACTIONS = 50000;
 const currency = new Intl.NumberFormat("id-ID", {
@@ -64,6 +65,28 @@ function saveTransaction(database, transactionData) {
     transaction.oncomplete = () => resolve(savedId);
     transaction.onerror = () => reject(transaction.error || new Error("Penyimpanan transaksi gagal."));
     transaction.onabort = () => reject(transaction.error || new Error("Penyimpanan transaksi dibatalkan."));
+  });
+}
+
+function updateTransaction(database, transactionData) {
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(STORE_NAME, "readwrite");
+    const request = transaction.objectStore(STORE_NAME).put(transactionData);
+    request.onerror = () => reject(request.error || new Error("Perubahan tidak dapat disimpan."));
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = () => reject(transaction.error || new Error("Perubahan transaksi gagal."));
+    transaction.onabort = () => reject(transaction.error || new Error("Perubahan transaksi dibatalkan."));
+  });
+}
+
+function getTransaction(database, id) {
+  return new Promise((resolve, reject) => {
+    const request = database
+      .transaction(STORE_NAME, "readonly")
+      .objectStore(STORE_NAME)
+      .get(id);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error || new Error("Catatan tidak dapat dibaca."));
   });
 }
 
@@ -220,8 +243,22 @@ function renderTransaction(transaction) {
     `transaction-amount ${transaction.type}`,
     `${prefix} ${currency.format(transaction.amount)}`,
   );
-  row.append(icon, info, amount);
+  const editButton = makeElement("button", "edit-button", "Edit");
+  editButton.type = "button";
+  editButton.dataset.editId = String(transaction.id);
+  editButton.setAttribute("aria-label", `Edit ${transaction.description}`);
+  row.append(icon, info, amount, editButton);
   return row;
+}
+
+function resetTransactionForm(today) {
+  editingTransaction.id = null;
+  transactionForm.reset();
+  document.querySelector("#transaction_date").value = today;
+  document.querySelector("#form-heading").textContent = "Tambah catatan";
+  document.querySelector("#submit-transaction").innerHTML =
+    'Simpan transaksi <span aria-hidden="true">→</span>';
+  document.querySelector("#cancel-edit").hidden = true;
 }
 
 async function refreshReport(database) {
@@ -251,6 +288,43 @@ async function startApp() {
   document.querySelector("#transaction_date").value = today;
   monthInput.value = today.slice(0, 7);
   await refreshReport(database);
+
+  transactionList.addEventListener("click", async (event) => {
+    const button = event.target.closest("button[data-edit-id]");
+    if (!button) {
+      return;
+    }
+
+    try {
+      const transaction = await getTransaction(database, Number(button.dataset.editId));
+      if (!transaction) {
+        showMessage("Transaksi tidak ditemukan. Muat ulang laporan lalu coba lagi.", "error");
+        return;
+      }
+
+      editingTransaction.id = transaction.id;
+      document.querySelector("#transaction_date").value = transaction.date;
+      document.querySelector("#transaction_type").value = transaction.type;
+      document.querySelector("#amount").value = String(transaction.amount);
+      document.querySelector("#description").value = transaction.description;
+      document.querySelector("#form-heading").textContent = "Edit catatan";
+      document.querySelector("#submit-transaction").innerHTML =
+        'Simpan perubahan <span aria-hidden="true">→</span>';
+      document.querySelector("#cancel-edit").hidden = false;
+      document.querySelector("#description").focus();
+      document.querySelector(".form-panel").scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } catch (error) {
+      showMessage(`Transaksi gagal dibuka untuk diedit: ${error.message}`, "error");
+    }
+  });
+
+  document.querySelector("#cancel-edit").addEventListener("click", () => {
+    resetTransactionForm(today);
+    showMessage("Edit dibatalkan. Tidak ada perubahan pada transaksi.", "success");
+  });
 
   document.querySelector("#export-backup").addEventListener("click", async () => {
     try {
@@ -334,12 +408,22 @@ async function startApp() {
     }
 
     try {
-      await saveTransaction(database, { date, type, amount, description });
-      transactionForm.reset();
-      document.querySelector("#transaction_date").value = today;
+      if (editingTransaction.id === null) {
+        await saveTransaction(database, { date, type, amount, description });
+        showMessage("Transaksi tersimpan di HP ini.", "success");
+      } else {
+        await updateTransaction(database, {
+          id: editingTransaction.id,
+          date,
+          type,
+          amount,
+          description,
+        });
+        showMessage("Perubahan transaksi berhasil disimpan.", "success");
+      }
+      resetTransactionForm(today);
       monthInput.value = date.slice(0, 7);
       await refreshReport(database);
-      showMessage("Transaksi tersimpan di HP ini.", "success");
     } catch (error) {
       showMessage(`Transaksi gagal disimpan: ${error.message}`, "error");
     }

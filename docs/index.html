@@ -54,7 +54,7 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">CATAT TRANSAKSI</p>
-            <h2>Tambah catatan</h2>
+            <h2 id="form-heading">Tambah catatan</h2>
           </div>
           <span class="heading-mark" aria-hidden="true">+</span>
         </div>
@@ -80,7 +80,10 @@
           <input id="description" name="description" type="text" maxlength="120"
                  placeholder="Contoh: Gaji, beli beras, rokok" required>
 
-          <button class="save-button" type="submit">Simpan transaksi <span aria-hidden="true">→</span></button>
+          <div class="form-actions">
+            <button id="submit-transaction" class="save-button" type="submit">Simpan transaksi <span aria-hidden="true">→</span></button>
+            <button id="cancel-edit" class="secondary-button cancel-edit-button" type="button" hidden>Batal edit</button>
+          </div>
         </form>
       </section>
 

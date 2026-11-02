@@ -18,6 +18,8 @@ class FinanceAppTests(unittest.TestCase):
         self.assertIn(b"./app.js", response.data)
         self.assertIn(b"Unduh cadangan", response.data)
         self.assertIn(b"Pulihkan cadangan", response.data)
+        self.assertIn(b'id="cancel-edit"', response.data)
+        self.assertIn(b'id="form-heading">Tambah catatan', response.data)
         response.close()
 
     def test_serves_installable_app_manifest(self):
@@ -32,7 +34,7 @@ class FinanceAppTests(unittest.TestCase):
     def test_serves_service_worker_with_root_scope(self):
         response = self.client.get("/service-worker.js")
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"catatan-keuangan-shell-v2", response.data)
+        self.assertIn(b"catatan-keuangan-shell-v3", response.data)
         response.close()
 
     def test_serves_local_storage_logic(self):
@@ -42,6 +44,8 @@ class FinanceAppTests(unittest.TestCase):
         self.assertIn(b"objectStore(STORE_NAME).add", response.data)
         self.assertIn(b"validateBackup", response.data)
         self.assertIn(b"importTransactions", response.data)
+        self.assertIn(b"updateTransaction", response.data)
+        self.assertIn(b"data-edit-id", response.data)
         self.assertIn(b"refreshReport", response.data)
         response.close()
 

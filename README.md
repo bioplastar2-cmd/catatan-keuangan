@@ -1,7 +1,7 @@
 # Catatan Keuangan
 
 Aplikasi web/PWA untuk mencatat tanggal, tipe transaksi, nominal, dan
-keterangan, serta melihat laporan per bulan. Catatan disimpan di penyimpanan
+keterangan, mengedit transaksi yang sudah dicatat, serta melihat laporan per bulan. Catatan disimpan di penyimpanan
 lokal browser (IndexedDB) pada HP; transaksi tidak dikirim atau disinkronkan ke
 server. Database komputer dari versi sebelumnya tidak dihapus, tetapi datanya
 tidak otomatis dipindahkan ke PWA ini.
@@ -66,6 +66,13 @@ Pemulihan menggabungkan catatan ke penyimpanan HP yang sedang dipakai; catatan
 yang sudah ada tidak dihapus. Duplikat yang sama dilewati, dan benturan ID
 antara catatan berbeda disimpan sebagai catatan baru. File cadangan memuat data
 keuangan pribadi, jadi simpan dan kirim hanya melalui tempat yang Anda percaya.
+
+## Mengedit transaksi
+
+Tekan tombol **Edit** di baris transaksi yang ingin diperbaiki. Form akan terisi
+dengan data transaksi tersebut; ubah kolom yang diperlukan, lalu tekan
+**Simpan perubahan**. Perubahan memperbarui transaksi yang sama, bukan
+menambahkan transaksi baru. Tekan **Batal edit** untuk membatalkan.
 
 Dokumentasi: [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)
 dan [sumber penerbitan](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
