@@ -14,6 +14,8 @@ class FinanceAppTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'name="description"', response.data)
         self.assertIn(b'type="month"', response.data)
+        self.assertIn(b'id="selected-month-label" hidden', response.data)
+        self.assertIn(b'id="report-footnote" hidden', response.data)
         self.assertIn(b"Ringkasan bulanan", response.data)
         self.assertIn(b'>Bulan</label>', response.data)
         self.assertIn(b"Catatan keuangan", response.data)
@@ -38,7 +40,7 @@ class FinanceAppTests(unittest.TestCase):
     def test_serves_service_worker_with_root_scope(self):
         response = self.client.get("/service-worker.js")
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"catatan-keuangan-shell-v7", response.data)
+        self.assertIn(b"catatan-keuangan-shell-v8", response.data)
         response.close()
 
     def test_serves_local_storage_logic(self):

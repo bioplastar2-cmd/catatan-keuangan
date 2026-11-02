@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "catatan-keuangan-shell-v7";
+const CACHE_NAME = "catatan-keuangan-shell-v8";
 const APP_BASE = self.registration.scope;
 const APP_ROOT = new URL("./", APP_BASE).href;
 const APP_SHELL = [

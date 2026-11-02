@@ -280,7 +280,7 @@ function resetTransactionForm(today) {
   editingTransaction.id = null;
   transactionForm.reset();
   document.querySelector("#transaction_date").value = today;
-  document.querySelector("#form-heading").textContent = "Tambah catatan";
+  document.querySelector("#form-heading").textContent = "Tambah transaksi";
   document.querySelector("#submit-transaction").innerHTML =
     'Simpan transaksi <span aria-hidden="true">→</span>';
   document.querySelector("#cancel-edit").hidden = true;
